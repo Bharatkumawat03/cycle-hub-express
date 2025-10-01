@@ -123,8 +123,8 @@ const Account = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar - User Info */}
           <div className="lg:col-span-1 space-y-4">
-            <Card className="bg-gradient-card border-border/50 shadow-card hover:shadow-hover transition-all duration-300 overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent" />
+            <Card className="relative bg-gradient-card border-border/50 shadow-card hover:shadow-hover transition-all duration-300 overflow-hidden">
+              <div className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-br from-primary/5 to-transparent" />
               <CardContent className="p-6 relative">
                 <div className="text-center mb-6">
                   <div className="relative inline-block">
