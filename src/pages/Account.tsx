@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
+import { useToast } from '@/hooks/use-toast';
 import { 
   User, 
   ShoppingBag, 
@@ -32,7 +33,9 @@ import {
 } from 'lucide-react';
 
 const Account = () => {
-  const [user] = useState({
+  const { toast } = useToast();
+  
+  const [user, setUser] = useState({
     name: 'Rajesh Kumar',
     email: 'rajesh.kumar@example.com',
     phone: '+91 98765 43210',
@@ -66,7 +69,7 @@ const Account = () => {
     }
   ]);
 
-  const [addresses] = useState([
+  const [addresses, setAddresses] = useState([
     {
       id: 1,
       type: 'Home',
@@ -84,6 +87,77 @@ const Account = () => {
       isDefault: false
     }
   ]);
+
+  const [settings, setSettings] = useState({
+    emailNotifications: true,
+    smsNotifications: false,
+    orderUpdates: true,
+    promotions: true,
+    twoFactor: false,
+  });
+
+  // Handlers
+  const handleSaveProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Profile Updated",
+      description: "Your profile information has been saved successfully.",
+    });
+  };
+
+  const handleAddAddress = () => {
+    const newAddress = {
+      id: addresses.length + 1,
+      type: 'New Address',
+      name: user.name,
+      address: 'Enter your address',
+      phone: user.phone,
+      isDefault: false,
+    };
+    setAddresses([...addresses, newAddress]);
+    toast({
+      title: "Address Added",
+      description: "New address has been added. Please update the details.",
+    });
+  };
+
+  const handleDeleteAddress = (id: number) => {
+    if (addresses.length === 1) {
+      toast({
+        title: "Cannot Delete",
+        description: "You must have at least one address.",
+        variant: "destructive"
+      });
+      return;
+    }
+    setAddresses(addresses.filter(addr => addr.id !== id));
+    toast({
+      title: "Address Deleted",
+      description: "Address has been removed successfully.",
+    });
+  };
+
+  const handleSetDefaultAddress = (id: number) => {
+    setAddresses(addresses.map(addr => ({
+      ...addr,
+      isDefault: addr.id === id,
+    })));
+    toast({
+      title: "Default Address Updated",
+      description: "Your default address has been changed.",
+    });
+  };
+
+  const handleToggleSetting = (setting: keyof typeof settings) => {
+    setSettings(prev => ({
+      ...prev,
+      [setting]: !prev[setting],
+    }));
+    toast({
+      title: "Settings Updated",
+      description: "Your preferences have been saved.",
+    });
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -292,7 +366,7 @@ const Account = () => {
                     <CardDescription>Update your personal details and preferences</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <form className="space-y-6">
+                    <form onSubmit={handleSaveProfile} className="space-y-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-2">
                           <Label htmlFor="name" className="text-sm font-semibold flex items-center gap-2">
@@ -301,7 +375,8 @@ const Account = () => {
                           </Label>
                           <Input 
                             id="name"
-                            defaultValue={user.name} 
+                            value={user.name}
+                            onChange={(e) => setUser({...user, name: e.target.value})}
                             className="bg-background border-border h-11"
                           />
                         </div>
@@ -312,7 +387,8 @@ const Account = () => {
                           </Label>
                           <Input 
                             id="phone"
-                            defaultValue={user.phone} 
+                            value={user.phone}
+                            onChange={(e) => setUser({...user, phone: e.target.value})}
                             className="bg-background border-border h-11"
                           />
                         </div>
@@ -325,7 +401,8 @@ const Account = () => {
                         </Label>
                         <Input 
                           id="email"
-                          defaultValue={user.email} 
+                          value={user.email}
+                          onChange={(e) => setUser({...user, email: e.target.value})}
                           className="bg-background border-border h-11"
                         />
                       </div>
@@ -368,7 +445,7 @@ const Account = () => {
                         </div>
                       </div>
 
-                      <Button className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all">
+                      <Button type="submit" className="w-full h-12 text-base font-semibold shadow-lg hover:shadow-xl transition-all">
                         Save Changes
                       </Button>
                     </form>
@@ -390,7 +467,7 @@ const Account = () => {
                         </CardTitle>
                         <CardDescription>Manage your delivery addresses</CardDescription>
                       </div>
-                      <Button className="w-full sm:w-auto shadow-lg hover:shadow-xl transition-all">
+                      <Button onClick={handleAddAddress} className="w-full sm:w-auto shadow-lg hover:shadow-xl transition-all">
                         <Plus className="w-4 h-4 mr-2" />
                         Add New Address
                       </Button>
@@ -433,7 +510,12 @@ const Account = () => {
                                 <Edit className="w-4 h-4 mr-2" />
                                 Edit
                               </Button>
-                              <Button variant="outline" size="sm" className="flex-1 lg:flex-none text-destructive hover:bg-destructive hover:text-destructive-foreground">
+                              <Button 
+                                variant="outline" 
+                                size="sm" 
+                                onClick={() => handleDeleteAddress(address.id)}
+                                className="flex-1 lg:flex-none text-destructive hover:bg-destructive hover:text-destructive-foreground"
+                              >
                                 <Trash2 className="w-4 h-4 mr-2" />
                                 Delete
                               </Button>
@@ -470,7 +552,10 @@ const Account = () => {
                             <Label className="text-base font-medium">Email notifications for orders</Label>
                             <p className="text-sm text-muted-foreground">Receive updates about your orders via email</p>
                           </div>
-                          <Switch defaultChecked />
+                          <Switch 
+                            checked={settings.emailNotifications}
+                            onCheckedChange={() => handleToggleSetting('emailNotifications')}
+                          />
                         </div>
                         <Separator />
                         <div className="flex items-center justify-between py-2">
@@ -478,7 +563,10 @@ const Account = () => {
                             <Label className="text-base font-medium">SMS notifications for deliveries</Label>
                             <p className="text-sm text-muted-foreground">Get real-time delivery updates via SMS</p>
                           </div>
-                          <Switch defaultChecked />
+                          <Switch 
+                            checked={settings.smsNotifications}
+                            onCheckedChange={() => handleToggleSetting('smsNotifications')}
+                          />
                         </div>
                         <Separator />
                         <div className="flex items-center justify-between py-2">
@@ -486,7 +574,10 @@ const Account = () => {
                             <Label className="text-base font-medium">Newsletter and promotions</Label>
                             <p className="text-sm text-muted-foreground">Stay updated with latest deals and offers</p>
                           </div>
-                          <Switch />
+                          <Switch 
+                            checked={settings.promotions}
+                            onCheckedChange={() => handleToggleSetting('promotions')}
+                          />
                         </div>
                       </div>
                     </div>

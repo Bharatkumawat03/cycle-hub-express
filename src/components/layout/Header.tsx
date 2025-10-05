@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store/store';
-import { setSearch } from '@/store/slices/filtersSlice';
+import { setSearch, setCategory, toggleBrand, resetFilters } from '@/store/slices/filtersSlice';
 import pedalBharatLogo from '@/assets/pedalbharat-logo.png';
+import { categories, brands } from '@/data/products';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -13,21 +14,36 @@ import {
   Heart, 
   User, 
   Menu,
-  X
+  X,
+  ChevronDown
 } from 'lucide-react';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showCategoriesDropdown, setShowCategoriesDropdown] = useState(false);
+  const [showBrandsDropdown, setShowBrandsDropdown] = useState(false);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartItemCount = useSelector((state: RootState) => state.cart.itemCount);
   const wishlistCount = useSelector((state: RootState) => state.wishlist.items.length);
   const searchValue = useSelector((state: RootState) => state.filters.search);
 
+  const handleCategoryClick = (categoryId: string) => {
+    dispatch(setCategory(categoryId));
+    navigate('/shop');
+    setShowCategoriesDropdown(false);
+  };
+
+  const handleBrandClick = (brand: string) => {
+    dispatch(resetFilters());
+    dispatch(toggleBrand(brand));
+    navigate('/shop');
+    setShowBrandsDropdown(false);
+  };
+
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'Shop', href: '/shop' },
-    { name: 'Categories', href: '/categories' },
-    { name: 'Brands', href: '/brands' },
     { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -72,6 +88,57 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
+            
+            {/* Categories Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setShowCategoriesDropdown(true)}
+              onMouseLeave={() => setShowCategoriesDropdown(false)}
+            >
+              <button className="flex items-center gap-1 text-foreground hover:text-primary transition-colors duration-200 font-medium">
+                Categories
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              {showCategoriesDropdown && (
+                <div className="absolute top-full left-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-hover p-2 z-50">
+                  {categories.filter(cat => cat.id !== 'all').map((category) => (
+                    <button
+                      key={category.id}
+                      onClick={() => handleCategoryClick(category.id)}
+                      className="w-full text-left px-4 py-2 hover:bg-muted rounded-md transition-colors flex items-center gap-2"
+                    >
+                      <span className="text-xl">{category.icon}</span>
+                      <span className="text-foreground">{category.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Brands Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setShowBrandsDropdown(true)}
+              onMouseLeave={() => setShowBrandsDropdown(false)}
+            >
+              <button className="flex items-center gap-1 text-foreground hover:text-primary transition-colors duration-200 font-medium">
+                Brands
+                <ChevronDown className="w-4 h-4" />
+              </button>
+              {showBrandsDropdown && (
+                <div className="absolute top-full left-0 mt-2 w-64 bg-background border border-border rounded-lg shadow-hover p-2 z-50 max-h-96 overflow-y-auto">
+                  {brands.map((brand) => (
+                    <button
+                      key={brand}
+                      onClick={() => handleBrandClick(brand)}
+                      className="w-full text-left px-4 py-2 hover:bg-muted rounded-md transition-colors text-foreground"
+                    >
+                      {brand}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
           </nav>
 
             {/* Search Bar */}
