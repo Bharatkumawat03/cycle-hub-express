@@ -9,21 +9,21 @@ const FeaturedProducts = () => {
   const featuredProducts = products.filter(product => product.isFeatured);
 
   return (
-    <section className="py-20 bg-muted/30">
+    <section className="py-8 md:py-16 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
-        <div className="flex items-center justify-between mb-12">
+        <div className="flex items-center justify-between mb-6 md:mb-12">
           <div>
-            <div className="flex items-center gap-3 mb-4">
-              <TrendingUp className="w-6 h-6 text-primary" />
-              <Badge className="bg-primary/10 text-primary border-primary/20">
+            <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-4">
+              <TrendingUp className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+              <Badge className="bg-primary/10 text-primary border-primary/20 text-xs md:text-sm">
                 Trending Now
               </Badge>
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-bold text-foreground mb-2 md:mb-4">
               Featured Products
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-sm md:text-lg lg:text-xl text-muted-foreground hidden md:block">
               Handpicked gear that's making waves in the cycling community
             </p>
           </div>
@@ -37,7 +37,7 @@ const FeaturedProducts = () => {
         </div>
 
         {/* Products Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-6 mb-6 md:mb-8">
           {featuredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -46,7 +46,7 @@ const FeaturedProducts = () => {
         {/* Mobile View All Button */}
         <div className="text-center md:hidden">
           <Link to="/shop">
-            <Button variant="outline" className="border-border hover:border-primary hover:bg-primary/5 px-8">
+            <Button variant="outline" size="sm" className="border-border hover:border-primary hover:bg-primary/5 px-6">
               View All Products
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
