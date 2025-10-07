@@ -62,18 +62,18 @@ const Shop = () => {
     });
 
   return (
-    <div className="min-h-screen bg-background py-8">
+    <div className="min-h-screen bg-background py-4 md:py-6">
       <div className="w-full px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-4">Shop Cycling Gear</h1>
-          <p className="text-muted-foreground">
+        <div className="mb-4 md:mb-6">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-2">Shop Cycling Gear</h1>
+          <p className="text-sm md:text-base text-muted-foreground">
             Discover premium cycling equipment from the world's leading brands
           </p>
         </div>
 
         {/* Search and Filters Bar */}
-        <div className="mb-8 space-y-4">
+        <div className="mb-4 md:mb-6 space-y-3">
           <div className="flex flex-col md:flex-row gap-4">
             {/* Search */}
             <div className="relative flex-1">
@@ -164,20 +164,20 @@ const Shop = () => {
           </div>
         </div>
 
-        <div className="flex gap-8">
+        <div className="flex gap-4 md:gap-6">
           {/* Sidebar Filters */}
-          <aside className={`w-64 space-y-6 ${showFilters ? 'block' : 'hidden'} md:block`}>
+          <aside className={`w-56 space-y-3 md:space-y-4 ${showFilters ? 'block' : 'hidden'} md:block`}>
             {/* Categories */}
             <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Categories</CardTitle>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Categories</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2">
+              <CardContent className="space-y-1">
                 {categories.map(category => (
                   <button
                     key={category.id}
                     onClick={() => dispatch(setCategory(category.id))}
-                    className={`block w-full text-left px-3 py-2 rounded-md transition-colors ${
+                    className={`block w-full text-left px-2 py-1.5 text-sm rounded-md transition-colors ${
                       filters.category === category.id
                         ? 'bg-primary text-primary-foreground'
                         : 'hover:bg-muted'
@@ -191,10 +191,10 @@ const Shop = () => {
 
             {/* Price Range */}
             <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Price Range</CardTitle>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Price Range</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="space-y-3">
                 <Slider
                   value={filters.priceRange}
                   onValueChange={(value) => dispatch(setPriceRange(value as [number, number]))}
@@ -246,10 +246,10 @@ const Shop = () => {
 
             {/* Brands */}
             <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Brands</CardTitle>
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base">Brands</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2">
+              <CardContent className="space-y-1.5">
                 {brands.map(brand => (
                   <div key={brand} className="flex items-center space-x-2">
                     <Checkbox
@@ -272,14 +272,14 @@ const Shop = () => {
           {/* Products Grid */}
           <main className="flex-1">
             {filteredProducts.length === 0 ? (
-              <div className="text-center py-12">
-                <h3 className="text-xl font-semibold text-foreground mb-2">No products found</h3>
-                <p className="text-muted-foreground">Try adjusting your filters</p>
+              <div className="text-center py-8">
+                <h3 className="text-lg font-semibold text-foreground mb-2">No products found</h3>
+                <p className="text-sm text-muted-foreground">Try adjusting your filters</p>
               </div>
             ) : (
-              <div className={`grid gap-6 ${
+              <div className={`grid gap-3 md:gap-4 ${
                 viewMode === 'grid' 
-                  ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' 
+                  ? 'grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5' 
                   : 'grid-cols-1'
               }`}>
                 {filteredProducts.map(product => (
