@@ -9,7 +9,7 @@ const FeaturedProducts = () => {
   const featuredProducts = products.filter(product => product.isFeatured);
 
   return (
-    <section className="py-8 md:py-16 bg-muted/30">
+    <section className="py-8 md:py-12 lg:py-14 bg-muted/30">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex items-center justify-between mb-6 md:mb-12">
