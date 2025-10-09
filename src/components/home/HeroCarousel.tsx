@@ -98,8 +98,8 @@ const HeroCarousel = () => {
   }, [api]);
 
   return (
-    <section className="relative min-h-[40vh] md:min-h-[50vh] lg:min-h-[50vh] overflow-hidden">
-      <Carousel 
+    <section className="relative min-h-[300px] md:min-h-[350px] lg:min-h-[400px] overflow-hidden">
+      <Carousel
         setApi={setApi}
         opts={{
           align: "start",
@@ -110,7 +110,7 @@ const HeroCarousel = () => {
         <CarouselContent className="-ml-0">
           {slides.map((slide) => (
             <CarouselItem key={slide.id} className="pl-0">
-              <div className="relative min-h-[40vh] md:min-h-[50vh] lg:min-h-[50vh] flex items-center bg-gradient-hero overflow-hidden">
+              <div className="relative min-h-[300px] md:min-h-[350px] lg:min-h-[400px] flex items-center bg-gradient-hero overflow-hidden">
                 {/* Background Image */}
                 <div className="absolute inset-0 z-0">
                   <img

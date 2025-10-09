@@ -1,11 +1,22 @@
 import { Link } from 'react-router-dom';
 import { categories } from '@/data/products';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useRef } from 'react';
 
 const FeaturedCategories = () => {
-  // Show all categories except 'all'
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const displayCategories = categories.filter(cat => cat.id !== 'all');
+
+  const scroll = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 300;
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <section className="py-6 md:py-10 lg:py-12 bg-background border-b border-border">
@@ -24,8 +35,31 @@ const FeaturedCategories = () => {
         </div>
 
         {/* Scrollable Categories */}
-        <div className="relative">
-          <div className="flex gap-3 md:gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory">
+        <div className="relative group/container">
+          {/* Left Arrow - visible on hover for tablet/desktop */}
+          <Button
+            variant="outline"
+            size="icon"
+            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover/container:opacity-100 transition-opacity bg-background shadow-lg"
+            onClick={() => scroll('left')}
+          >
+            <ChevronLeft className="w-5 h-5" />
+          </Button>
+
+          {/* Right Arrow - visible on hover for tablet/desktop */}
+          <Button
+            variant="outline"
+            size="icon"
+            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover/container:opacity-100 transition-opacity bg-background shadow-lg"
+            onClick={() => scroll('right')}
+          >
+            <ChevronRight className="w-5 h-5" />
+          </Button>
+
+          <div 
+            ref={scrollContainerRef}
+            className="flex gap-3 md:gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory"
+          >
             {displayCategories.map((category) => (
               <Link
                 key={category.id}
@@ -42,6 +76,11 @@ const FeaturedCategories = () => {
                 </div>
               </Link>
             ))}
+          </div>
+
+          {/* Mobile scroll hint */}
+          <div className="md:hidden text-center mt-2">
+            <p className="text-xs text-muted-foreground">Swipe to see more →</p>
           </div>
         </div>
       </div>

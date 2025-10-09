@@ -159,11 +159,18 @@ const Header = () => {
                   value={searchValue}
                   onChange={(e) => dispatch(setSearch(e.target.value))}
                   onKeyPress={(e) => {
-                    if (e.key === 'Enter' && searchValue.trim()) {
-                      window.location.href = '/shop';
+                    if (e.key === 'Enter') {
+                      if (searchValue.trim()) {
+                        navigate('/shop');
+                      }
                     }
                   }}
-                  className="pl-10 bg-muted/50 border-muted focus:border-primary"
+                  onFocus={() => {
+                    if (window.location.pathname !== '/shop') {
+                      navigate('/shop');
+                    }
+                  }}
+                  className="pl-10 bg-muted/50 border-muted focus:border-primary focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>
