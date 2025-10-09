@@ -15,7 +15,7 @@ const FeaturedCategories = () => {
           <h2 className="text-lg md:text-2xl font-bold text-foreground">
             Shop by Category
           </h2>
-          <Link to="/categories" className="hidden md:block">
+          <Link to="/categories">
             <Button variant="ghost" size="sm" className="text-primary hover:text-primary hover:bg-primary/5">
               View All
               <ArrowRight className="ml-2 w-4 h-4" />
@@ -43,16 +43,6 @@ const FeaturedCategories = () => {
               </Link>
             ))}
           </div>
-        </div>
-
-        {/* Mobile View All Button */}
-        <div className="text-center mt-4 md:hidden">
-          <Link to="/categories">
-            <Button variant="outline" size="sm" className="border-border hover:border-primary hover:bg-primary/5">
-              View All Categories
-              <ArrowRight className="ml-2 w-4 h-4" />
-            </Button>
-          </Link>
         </div>
       </div>
 

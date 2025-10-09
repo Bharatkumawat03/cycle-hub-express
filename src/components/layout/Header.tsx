@@ -224,6 +224,27 @@ const Header = () => {
         </div>
       </div>
 
+      {/* Mobile Search Bar - Always Visible on Mobile */}
+      <div className="lg:hidden border-t border-border">
+        <div className="px-4 py-3">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+            <Input
+              type="text"
+              placeholder="Search for Products"
+              value={searchValue}
+              onChange={(e) => dispatch(setSearch(e.target.value))}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter' && searchValue.trim()) {
+                  window.location.href = '/shop';
+                }
+              }}
+              className="pl-11 pr-4 h-11 bg-background border-border rounded-lg text-sm"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="md:hidden bg-background border-t border-border">
@@ -238,23 +259,6 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
-            <div className="px-3 py-2">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-                <Input
-                  type="text"
-                  placeholder="Search cycling gear..."
-                  value={searchValue}
-                  onChange={(e) => dispatch(setSearch(e.target.value))}
-                  onKeyPress={(e) => {
-                    if (e.key === 'Enter' && searchValue.trim()) {
-                      window.location.href = '/shop';
-                    }
-                  }}
-                  className="pl-10 bg-muted/50 border-muted"
-                />
-              </div>
-            </div>
           </div>
         </div>
       )}
