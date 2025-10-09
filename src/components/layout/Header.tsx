@@ -69,16 +69,16 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
-            <img 
+            {/* <img 
               src={pedalBharatLogo} 
               alt="PedalBharat Logo" 
               className="w-10 h-10 rounded-full"
-            />
+            /> */}
             <span className="text-xl font-bold text-foreground">PedalBharat</span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden md:flex items-center space-x-8 ml-6">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -170,16 +170,6 @@ const Header = () => {
 
           {/* Action Buttons */}
           <div className="flex items-center space-x-3">
-            {/* Mobile Search */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="lg:hidden"
-              onClick={() => window.location.href = '/shop'}
-            >
-              <Search className="w-5 h-5" />
-            </Button>
-
             {/* Wishlist */}
             <Link to="/wishlist">
               <Button variant="ghost" size="icon" className="relative">
@@ -224,7 +214,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Search Bar - Always Visible on Mobile */}
+      {/* Mobile Search Bar - Advanced and Functional */}
       <div className="lg:hidden border-t border-border">
         <div className="px-4 py-3">
           <div className="relative">
@@ -235,11 +225,18 @@ const Header = () => {
               value={searchValue}
               onChange={(e) => dispatch(setSearch(e.target.value))}
               onKeyPress={(e) => {
-                if (e.key === 'Enter' && searchValue.trim()) {
-                  window.location.href = '/shop';
+                if (e.key === 'Enter') {
+                  if (searchValue.trim()) {
+                    navigate('/shop');
+                  }
                 }
               }}
-              className="pl-11 pr-4 h-11 bg-background border-border rounded-lg text-sm"
+              onFocus={() => {
+                if (window.location.pathname !== '/shop') {
+                  navigate('/shop');
+                }
+              }}
+              className="pl-11 pr-4 h-11 bg-background border-border rounded-lg text-sm focus:ring-2 focus:ring-primary"
             />
           </div>
         </div>
