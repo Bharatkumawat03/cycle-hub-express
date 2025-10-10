@@ -36,21 +36,21 @@ const FeaturedCategories = () => {
 
         {/* Scrollable Categories */}
         <div className="relative group/container">
-          {/* Left Arrow - visible on hover for tablet/desktop */}
+          {/* Left Arrow - Always visible with better styling */}
           <Button
             variant="outline"
             size="icon"
-            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover/container:opacity-100 transition-opacity bg-background shadow-lg"
+            className="absolute left-2 top-1/2 -translate-y-1/2 z-10 bg-background/95 backdrop-blur-sm shadow-lg border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200"
             onClick={() => scroll('left')}
           >
             <ChevronLeft className="w-5 h-5" />
           </Button>
 
-          {/* Right Arrow - visible on hover for tablet/desktop */}
+          {/* Right Arrow - Always visible with better styling */}
           <Button
             variant="outline"
             size="icon"
-            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover/container:opacity-100 transition-opacity bg-background shadow-lg"
+            className="absolute right-2 top-1/2 -translate-y-1/2 z-10 bg-background/95 backdrop-blur-sm shadow-lg border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-200"
             onClick={() => scroll('right')}
           >
             <ChevronRight className="w-5 h-5" />
@@ -58,7 +58,7 @@ const FeaturedCategories = () => {
 
           <div 
             ref={scrollContainerRef}
-            className="flex gap-3 md:gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory"
+            className="flex gap-3 md:gap-4 overflow-x-auto pb-4 scrollbar-hide snap-x snap-mandatory px-12"
           >
             {displayCategories.map((category) => (
               <Link
@@ -76,11 +76,6 @@ const FeaturedCategories = () => {
                 </div>
               </Link>
             ))}
-          </div>
-
-          {/* Mobile scroll hint */}
-          <div className="md:hidden text-center mt-2">
-            <p className="text-xs text-muted-foreground">Swipe to see more →</p>
           </div>
         </div>
       </div>

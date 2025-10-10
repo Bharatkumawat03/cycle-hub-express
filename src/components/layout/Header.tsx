@@ -79,15 +79,12 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8 ml-6">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className="text-foreground hover:text-primary transition-colors duration-200 font-medium"
-              >
-                {item.name}
-              </Link>
-            ))}
+            <Link to="/" className="text-foreground hover:text-primary transition-colors duration-200 font-medium">
+              Home
+            </Link>
+            <Link to="/shop" className="text-foreground hover:text-primary transition-colors duration-200 font-medium">
+              Shop
+            </Link>
             
             {/* Categories Dropdown */}
             <div 
@@ -147,6 +144,13 @@ const Header = () => {
                 </div>
               )}
             </div>
+
+            <Link to="/blog" className="text-foreground hover:text-primary transition-colors duration-200 font-medium">
+              Blog
+            </Link>
+            <Link to="/contact" className="text-foreground hover:text-primary transition-colors duration-200 font-medium">
+              Contact
+            </Link>
           </nav>
 
             {/* Search Bar */}
@@ -253,16 +257,24 @@ const Header = () => {
       {isMenuOpen && (
         <div className="md:hidden bg-background border-t border-border">
           <div className="px-4 py-2 space-y-1">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className="block px-3 py-2 text-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors duration-200"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.name}
-              </Link>
-            ))}
+            <Link to="/" className="block px-3 py-2 text-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
+              Home
+            </Link>
+            <Link to="/shop" className="block px-3 py-2 text-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
+              Shop
+            </Link>
+            <Link to="/categories" className="block px-3 py-2 text-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
+              Categories
+            </Link>
+            <Link to="/brands" className="block px-3 py-2 text-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
+              Brands
+            </Link>
+            <Link to="/blog" className="block px-3 py-2 text-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
+              Blog
+            </Link>
+            <Link to="/contact" className="block px-3 py-2 text-foreground hover:text-primary hover:bg-muted/50 rounded-md transition-colors duration-200" onClick={() => setIsMenuOpen(false)}>
+              Contact
+            </Link>
           </div>
         </div>
       )}
