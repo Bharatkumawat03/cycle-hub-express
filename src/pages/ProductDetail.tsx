@@ -18,6 +18,7 @@ import {
   Shield,
   RotateCcw
 } from 'lucide-react';
+import ProductCard from '@/components/product/ProductCard';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -74,6 +75,11 @@ const ProductDetail = () => {
 
   // Dummy images for gallery
   const productImages = [product.image, product.image, product.image, product.image];
+
+  // Get similar products from the same category
+  const similarProducts = products
+    .filter(p => p.category === product.category && p.id !== product.id && p.inStock)
+    .slice(0, 5);
 
   return (
     <div className="min-h-screen bg-background py-8">
@@ -268,6 +274,26 @@ const ProductDetail = () => {
             </Card>
           </div>
         </div>
+
+        {/* Similar Products Section */}
+        {similarProducts.length > 0 && (
+          <div className="mt-16">
+            <div className="mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
+                Similar Products
+              </h2>
+              <p className="text-muted-foreground">
+                More items you might like from {product.category}
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 md:gap-4 lg:gap-6">
+              {similarProducts.map((similarProduct) => (
+                <ProductCard key={similarProduct.id} product={similarProduct} />
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
