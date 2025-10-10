@@ -19,6 +19,8 @@ import {
   RotateCcw
 } from 'lucide-react';
 import ProductCard from '@/components/product/ProductCard';
+import ReviewsSection from '@/components/product/ReviewsSection';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -273,6 +275,79 @@ const ProductDetail = () => {
               </CardContent>
             </Card>
           </div>
+        </div>
+
+        {/* Product Details and Reviews Tabs */}
+        <div className="mt-16">
+          <Tabs defaultValue="description" className="w-full">
+            <TabsList className="w-full justify-start border-b rounded-none h-auto p-0 bg-transparent">
+              <TabsTrigger 
+                value="description"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-6 py-3"
+              >
+                Description
+              </TabsTrigger>
+              <TabsTrigger 
+                value="specifications"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-6 py-3"
+              >
+                Specifications
+              </TabsTrigger>
+              <TabsTrigger 
+                value="reviews"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-6 py-3"
+              >
+                Reviews ({product.reviews})
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="description" className="mt-8">
+              <div className="prose max-w-none">
+                <p className="text-muted-foreground leading-relaxed mb-6">
+                  {product.description}
+                </p>
+                
+                <h3 className="text-xl font-bold text-foreground mb-4">Key Features</h3>
+                <ul className="space-y-3">
+                  {product.features.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-3 text-muted-foreground">
+                      <div className="w-1.5 h-1.5 bg-primary rounded-full mt-2 flex-shrink-0" />
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="specifications" className="mt-8">
+              <Card>
+                <CardContent className="p-6">
+                  {product.specifications ? (
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {Object.entries(product.specifications).map(([key, value]) => (
+                        <div key={key} className="flex justify-between py-3 border-b border-border last:border-0">
+                          <span className="font-medium text-foreground">{key}</span>
+                          <span className="text-muted-foreground">{value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-muted-foreground text-center py-8">
+                      Detailed specifications coming soon.
+                    </p>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="reviews" className="mt-8">
+              <ReviewsSection 
+                productId={product.id}
+                averageRating={product.rating}
+                totalReviews={product.reviews}
+              />
+            </TabsContent>
+          </Tabs>
         </div>
 
         {/* Similar Products Section */}
